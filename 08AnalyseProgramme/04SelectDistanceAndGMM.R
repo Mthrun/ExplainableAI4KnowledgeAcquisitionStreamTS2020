@@ -69,13 +69,19 @@ gmm=list(Means=modelproposal$Means,SDs=modelproposal$SDs,Weights=modelproposal$W
 gmm=AdaptGauss::AdaptGauss(distvec,gmm$Means,gmm$SDs,gmm$Weights)
 
 dput(gmm)
-gmm=list(Means = c(0.279052, 0.46736, 0.624108), SDs = c(0.088977, 
-                                                         0.0632205, 0.104364), Weights = c(0.4921, 0.2886, 0.2194))
+gmm=list(Means = c(0.269584, 0.461048, 0.574664), 
+         SDs = c(0.0846784, 0.060246, 0.1382311), 
+         Weights = c(0.4353, 0.2355, 0.3277))
 
 
-AdaptGauss::BayesDecisionBoundaries(gmm$Means,gmm$SDs,gmm$Weights)
-AdaptGauss::QQplotGMM(distvec,gmm$Means,gmm$SDs,gmm$Weights,ylab='Data = GMM of Distribution of Distances')#,xlab='Gaussian Mixture Model (GMM)')
-PlotMixturesAndBoundaries(distvec,gmm$Means,gmm$SDs,gmm$Weights,lwd=4,xlab='Range of Distances',ylab='PDE',main='GMM of Distribution of Distances',SingleGausses=T)
+dec=AdaptGauss::BayesDecisionBoundaries(gmm$Means,gmm$SDs,gmm$Weights)
+
+PlotMixtures(distvec,gmm$Means,gmm$SDs,gmm$Weights,lwd=5,xlab='Range of Distances',ylab='PDE',main='GMM of Distribution of Distances df',SingleGausses=T)
+legend("topright",c("Distances df","GMM","Single Gaussians","Bayes Boundary"),col=c("black","red","blue","magenta"), lwd=2, lty=c(1,1,1,1),bty = "n")
+abline(v = dec[1],col="magenta",lwd=5)
+
+par(pty="s")
+AdaptGauss::QQplotGMM(distvec,gmm$Means,gmm$SDs,gmm$Weights,ylab='Data = GMM of Distribution of Distances df')#,xlab='Gaussian Mixture Model (GMM)')
 
 setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte"))
 save(file='hellinger_DistancesHydrologie.rda',distvec,gmm,InputDistances,Trans3,Trans,backtrafo,dip)
