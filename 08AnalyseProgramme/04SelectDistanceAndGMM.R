@@ -2,7 +2,7 @@
 library(DataVisualizations)#cran
 library(parallelDist)#cran
 library(FCPS) #cran, using  #ClusterDistances
-setwd(ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte'))
+setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
 load(file='BackTransformationHydrologieAverageAgregation.rda')#,backtrafo,Trans3,Trans)
 
 #Investigating Distance Distributions
@@ -51,14 +51,14 @@ MDplot(ClusterDistances(as.matrix(parallelDist::parDist(Trans3,method = 'helling
 
 InputDistances=as.matrix(parallelDist::parDist(Trans3,method = 'hellinger'))
 
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/01Transformierte"))
 save(file='hellinger_DistancesHydrologie.rda',InputDistances,Trans3,Trans,backtrafo,Time)
 ##
 ## gmm ----
 library(diptest)#cran
 library(AdaptGauss)#cran
 library(DistributionOptimization)
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/01Transformierte"))
 load(file='hellinger_DistancesHydrologie.rda')#,pvalueChitest,distvec,gmm,InputDistances,Trans3,Trans,backtrafo)
 
 distvec=InputDistances[upper.tri(InputDistances,diag = F)]
@@ -83,5 +83,5 @@ abline(v = dec[1],col="magenta",lwd=5)
 par(pty="s")
 AdaptGauss::QQplotGMM(distvec,gmm$Means,gmm$SDs,gmm$Weights,ylab='Data = GMM of Distribution of Distances df')#,xlab='Gaussian Mixture Model (GMM)')
 
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/01Transformierte"))
 save(file='hellinger_DistancesHydrologie.rda',distvec,gmm,InputDistances,Trans3,Trans,backtrafo,dip)

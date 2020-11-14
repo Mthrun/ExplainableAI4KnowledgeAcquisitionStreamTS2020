@@ -4,7 +4,7 @@ devtools::install_github('aultsch/DataIO')
 #ReDi is an internal path function, please set all paths manually
 library(dbt.DataIO)
 library(TSAT)
-setwd(ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/90RawData'))
+setwd(ReDi('ExplainableAI4TimeSeries2020/90RawData'))
 V=dbt.DataIO::ReadLRN('HydrologieTime')
 Key1=V$Key
 df1=as.data.frame(V$Data)
@@ -23,4 +23,4 @@ for(i in 1:ncol(Data)){
                by.x='Time',by.y='Time',all.x = T,all.y = T)
 }
 
-TSAT::WriteDates('HydrologieAggregatedByMean2013bis2014.csv',Completedata,OutDirectory = ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/09Originale'),Comments = '02AggregateData2Daily.R; alles mean',CleanNames = T)
+TSAT::WriteDates('HydrologieAggregatedByMean2013bis2014.csv',Completedata,OutDirectory = ReDi('ExplainableAI4TimeSeries2020/09Originale'),Comments = '02AggregateData2Daily.R; alles mean',CleanNames = T)

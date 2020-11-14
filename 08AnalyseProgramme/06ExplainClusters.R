@@ -5,6 +5,7 @@ library(ProjectionBasedClustering)
 library(DataVisualizations)
 library(rpart)
 library(rpart.plot)
+library(evtree)
 library(FCPS)
 library(ggplot2)
 trainbestCART=function (Data, Names, Cls, MinClassSize = 10, PruningLevel = -1, 
@@ -104,10 +105,19 @@ CART2Rules=function (Tree, digits)
   }
   return(list(RuleSet = sort(output), NamesInRuleSet = NamesInRuleSet))
 }
+
+EvolutionTree <- function(Data, Cls){
+  Cls <- factor(Cls)
+  fullData = cbind(data.frame(Data) , Cls)
+  fit <- evtree::evtree(Cls ~ ., fullData)
+  plot(fit)
+  return(fit)
+}
 #################################  ####################################################################################
 # Knowledge Acquisition ----
 ########################################################################################################################
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/04DBS"))
+Disk="F"
+setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 
 #ClstTrue=RenameDescendingClassSize(ClstTrue2)
@@ -116,6 +126,10 @@ norm=NormalizeUmatrix(Trans4,resUmatrix$Umatrix,resUmatrix$Bestmatches)
 plotTopographicMap(norm,resUmatrix$Bestmatches,ClstTrue,Imx = imx,BmSize = 1.1,NoLevels=10)
 
 Header=colnames(Trans3)
+
+#evolution tree
+EvolutionTree(Trans3,ClstTrue)
+
 #best cart
 cart=trainbestCART(Trans3,colnames(Trans3),ClstTrue)
 
@@ -137,14 +151,24 @@ for(i in 1:ncol(Trans3)){
 
 range(mback[,1])
 range(mback[,7])
-mback[,'rain']=Trans$rain
+mback[,'rain']=Trans[,"rain"]
 Header=colnames(mback)
 cart=trainbestCART(mback,Header,ClstTrue)
 cc=ClstTrue
 cc[cc>4]=4
 
 plot(Trans$Time,cc,col=cc)
+
+
+#cart
 cart=trainbestCART(mback,Header,cc)
+comments="06ExplainClusters.R;BackTransformed Data, of which Transormed data was used in DBS"
+
+##For other XAIs
+#procedure requires https://github.com/aultsch/DataIO
+WriteLRN(FileName = "HydrologyToExplain.lrn",Data = mback,Header = colnames(mback),CommentOrDigits = comments)
+#evolution tree
+EvolutionTree(mback,cc)
 ind=which(cc<4)
 cart=trainbestCART(mback[ind,],Header,cc[ind])
 #bloeder cart wechselt dann das features ohne sinn

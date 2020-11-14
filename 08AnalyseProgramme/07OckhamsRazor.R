@@ -5,7 +5,7 @@ library(rgl)#cran
 library(GeneralizedUmatrix)#cran
 library(ProjectionBasedClustering)#cran
 ##nonlinear model proof ----
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
 
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 
@@ -13,7 +13,7 @@ proj=ProjectionBasedClustering::ICA(Trans4)
 genmodellinear=GeneralizedUmatrix(Trans3,proj$ProjectedPoints,F,Cls=ClstTrue)  
 plotTopographicMap(genmodellinear$Umatrix,genmodellinear$Bestmatches,Cls=ClstTrue)
 
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/07Dokumentationen"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/07Dokumentationen"))
 rgl.snapshot('HydrologyStructuresLinearhellinger3Clusters.png')
 
 require(FCPS)
@@ -31,5 +31,5 @@ plotTopographicMap(genmodellinear$Umatrix,genmodellinear$Bestmatches,Cls=linear_
 
 plotTopographicMap(genmodellinear$Umatrix,genmodellinear$Bestmatches,Cls=ClstTrue,BmSize = 1.5)
 
-setwd(ReDi("ExplainableAI4KnowledgeAcquisitionStreamTS2020/07Dokumentationen"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/07Dokumentationen"))
 rgl.snapshot('HydrologyStructuresProjectionPursuit.png')

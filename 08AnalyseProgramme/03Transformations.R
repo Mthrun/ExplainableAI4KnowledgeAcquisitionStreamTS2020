@@ -44,8 +44,8 @@ KNNimputation=function (Data, k = 3){
   }
   return(ImputedData = ImputedData)
 }
-setwd(ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte'))
-V=TSAT::ReadDates('HydrologieAggregatedByMean2013bis2014.csv',ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/09Originale'))
+setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
+V=TSAT::ReadDates('HydrologieAggregatedByMean2013bis2014.csv',ReDi('ExplainableAI4TimeSeries2020/09Originale'))
 Time=V$Time
 Trans=V$Data
 Trans[!is.finite(Trans)]=NaN
@@ -144,5 +144,5 @@ Trans3[Trans3<0]=0
 Trans3[Trans3>1.1]=1
 DataVisualizations::MDplot(Trans3)
 
-setwd(ReDi('ExplainableAI4KnowledgeAcquisitionStreamTS2020/01Transformierte'))
+setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
 save(file='BackTransformationHydrologieAverageAgregation.rda',backtrafo,Trans3,Trans,Time)
