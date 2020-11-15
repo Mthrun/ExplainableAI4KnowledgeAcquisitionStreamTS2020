@@ -74,8 +74,16 @@ ind=which(ClstTrue<4) #ignore outliers
 #[Dasgupta et al., 2020]  Dasgupta, S., Frost, N., Moshkovitz, M., & Rashtchian, C.: Explainable $ k $-Means and $ k $-Medians Clustering, 37th International Conference on Machine Learning,, Vienna, Austria, 2020.
 
 #But we can try a clustering with k-means of data (except of outliers)
-library(FCPS)#on cran
-ClsVeri=FCPS::kmeansClustering(Data[ind,],3,Type = "Steinley")$Cls
+library(FCPS)#on cran, requires version 1.2.6 for kcentroids, otherwise chose another k-means type
+ClsV=FCPS::kmeansClustering(Data[ind,],3,Type = "kcentroids")
+ClsVeri=ClsV$Cls
+require(data.table)#on cran
+require(FeatureImpCluster)#on cran
+#transforming data to measure feature importance
+DF=as.data.frame(Data[ind,])
+DF=data.table::as.data.table(DF)
+f <- FeatureImpCluster::FeatureImpCluster(ClsVeri$Object,DF)
+f$featureImp
 table(ClstTrue[ind],ClsVeri)#no overlap
 ClusteringAccuracy(ClsVeri,ClstTrue[ind])
 
