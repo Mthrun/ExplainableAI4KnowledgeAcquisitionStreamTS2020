@@ -175,6 +175,12 @@ cart=trainbestCART(mback[ind,],Header,cc[ind])
 colnames(mback)
 cart=trainbestCART(mback[ind,-2],Header[-2],cc[ind])
 
+##
+require(RWeka) #java >8 needs to be installed
+DF=data.frame(Cls=as.factor(as.character(ClstTrue)),mback)
+DecisionRules=RWeka::JRip(Cls~.,data = DF)
+#no relevant rules
+summary(DecisionRules)
 
 rules=CART2Rules(cart)
 rules
