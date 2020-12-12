@@ -1,5 +1,5 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DatabionicSwarm)](https://cran.r-project.org/package=DatabionicSwarm)
-[![DOI](https://zenodo.org/badge/113846715.svg)](https://zenodo.org/badge/latestdoi/113846715)
+[![DOI](https://zenodo.org/badge/250265216.svg)](https://zenodo.org/badge/latestdoi/250265216)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/DatabionicSwarm?color=blue)](https://r-pkg.org/pkg/DatabionicSwarm)
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/DatabionicSwarm?color=green)](https://r-pkg.org/pkg/DatabionicSwarm)
 
@@ -67,7 +67,7 @@ remotes::install_github('aultsch/DataIO')
 #### Installation using R Studio
 Please note, that dependecies have to be installed manually.
 
-*Tools -> Install Packages -> Repository (CRAN) -> FCPS*
+*Tools -> Install Packages -> Repository (CRAN) -> Name of Package*
 
 # General Remarks
 
@@ -76,11 +76,11 @@ Raw data is stored in 90RawData, aggregated data in 09Originale and preprocessed
 
 ## Additional information
 
-| Authors website  | http://www.deepbionics.org/           |
-| ---------------- |--------------------------------------:|
-| License          | GPL-3                                 |
-| Dependencies     | R (>= 3.5.0)                          |
-| Bug reports      | https://github.com/Mthrun/FCPS/issues |
+| Authors website  | http://www.deepbionics.org/           						   |
+| ---------------- |--------------------------------------------------------------:|
+| License          | GPL-3                                 						   |
+| Dependencies     | R (>= 3.5.0)                          						   |
+| Bug reports      | https://github.com/Mthrun/ExplainableAI4TimeSeries2020/issues |
 
 
 ## References
