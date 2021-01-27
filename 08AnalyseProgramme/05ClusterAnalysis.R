@@ -55,7 +55,7 @@ rgl.snapshot('hellinger3cluster_HydrologyStructures.png')
 ##Evaluation ----
 require(FCPS)
 library(DataVisualizations)
-DataVisualizations::Silhouette(Trans4,ClstTrue)
+DataVisualizations::Silhouetteplot(Trans4,ClstTrue,main="2013/2014 data")
 DataVisualizations::Heatmap(InputDistances,ClstTrue)+ggtitle('Distances sorted by Clustering (Cls)')
 cc=ClstTrue;cc[cc>4]=4;Heatmap(InputDistances,cc)+ggtitle('Distances sorted by clustering (Cls)')
 intracluster=FCPS::ClusterDistances(InputDistances,Cls = ClstTrue)
