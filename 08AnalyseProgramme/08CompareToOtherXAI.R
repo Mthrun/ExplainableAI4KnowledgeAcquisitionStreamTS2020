@@ -4,17 +4,6 @@ path=ReDi("ExplainableAI4TimeSeries2020/03eUD35",Disk)
 source(paste0(path,'/Clustering_Output_eUD35.R'))
 setwd(path)
 
-#Compare to eUD3.5 ----
-#Apply Source Code of
-#https://github.com/miguelmedinaperez/eUD3.5 
-#with default parameters to
-# ExplainableAI4TimeSeries2020/03eUD35/HydrologyToExplain.lrn
-# Outputs of algorithm are stored in
-# ExplainableAI4TimeSeries2020/03eUD35
-V=Clustering_Output_eUD35("Hydrology_Clusters.txt","Hydrology_Patterns.txt")
-Cls=V$Cls+1
-Patterns=V$Patterns
-
 Patterns2Rules=function(Patterns){
   Patterns=gsub("\\[",",c(",x = Patterns)
   Patterns=gsub("\\] ","\\)",x = Patterns)
@@ -40,11 +29,70 @@ Patterns2Rules=function(Patterns){
   return(list(ClassPopsM=ClassPopsM,ClassNamesM=ClassNamesM,Rules=Rules))
 }
 
+#Compare to eUD3.5 ----
+#Apply Source Code of
+#https://github.com/miguelmedinaperez/eUD3.5 
+#with default parameters to
+# ExplainableAI4TimeSeries2020/03eUD35/HydrologyToExplain.lrn
+# Outputs of algorithm are stored in
+# ExplainableAI4TimeSeries2020/03eUD35
+
+#2013-2014
+V=Clustering_Output_eUD35("Hydrology_Clusters.txt","Hydrology_Patterns.txt")
+Cls=V$Cls+1
+Patterns=V$Patterns
+
 RulesV=Patterns2Rules(Patterns)
 
 NoOfRules=length(RulesV$Rules)
-NoOfRules
+NoOfRules #541
 
+V=Clustering_Output_eUD35("Hydrology_Clusters2015.txt","Hydrology_Paterns2015.txt")
+Cls2015=V$Cls+1#234
+Patterns=V$Patterns
+
+RulesV=Patterns2Rules(Patterns)
+
+NoOfRules=length(RulesV$Rules)
+NoOfRules #503
+
+V=Clustering_Output_eUD35("Hydrology_Clusters2016.txt","Hydrology_Paterns2016.txt")
+Cls2016=V$Cls+1#291
+Patterns=V$Patterns
+
+RulesV=Patterns2Rules(Patterns)
+
+NoOfRules=length(RulesV$Rules)
+NoOfRules #552
+
+#procedure requires https://github.com/aultsch/DataIO
+V=ReadLRN(FileName = "HydrologyToExplain.lrn",ReDi("ExplainableAI4TimeSeries2020/03eUD35",Disk))
+Data=V$Data
+ind=which(ClstTrue<4) #ignore outliers
+
+Names=c(1:3)
+names(Names)=c('C 1','C 2','C 3')
+#no clear distinction
+ClassMDplot(Data[ind,1],Cls,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2013/2014')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("eUD3.5 Classes")
+
+ClassMDplot(Data[ind,7],Cls,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2013/2014')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("eUD3.5 Classes")
+
+
+V=ReadDates("20201226Hydrologie2016",ReDi("Hydrologie2019/09Originale",Disk))
+Data2016=V$Data
+
+ClassMDplot(Data2016[,1],Cls2016,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("eUD3.5 Classes")
+
+ClassMDplot(Data2016[,7],Cls2016,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("eUD3.5 Classes")
+
+V=ReadDates("20201226Hydrologie2015",ReDi("Hydrologie2019/09Originale",Disk))
+Data2015=V$Data
+
+ClassMDplot(Data2015[,1],Cls2015,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2015')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("eUD3.5 Classes")
+
+ClassMDplot(Data2015[,7],Cls2015,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2015')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("eUD3.5 Classes")
+
+## IMM ----
 Disk="E"
 setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
@@ -52,17 +100,6 @@ ind=which(ClstTrue<4)
 
 table(ClstTrue[ind],Cls)#no overlap
 ClusteringAccuracy(Cls,ClstTrue[ind])
-
-#procedure requires https://github.com/aultsch/DataIO
-V=ReadLRN(FileName = "HydrologyToExplain.lrn",ReDi("ExplainableAI4TimeSeries2020/03eUD35",Disk))
-Data=V$Data
-ind=which(ClstTrue<4) #ignore outliers
-
-names=c('C1','C2','C3')
-#no clear distinction
-ClassMDplot(Data[ind,1],Cls,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
-#c2 and c3 lower than c1
-ClassMDplot(Data[ind,7],Cls,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
 
 ## Explainable K-means ----
 #procedure requires https://github.com/aultsch/DataIO
@@ -94,8 +131,64 @@ ClusteringAccuracy(ClsVeri,ClstTrue[ind])
 #         "Dry days with cold water",
 #         "Outliers")
 
-names=c('C1','C2','C3')
-ClassMDplot(Data[ind,1],ClsVeri,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
-ClassMDplot(Data[ind,7],ClsVeri,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
+Names=c(1:3)
+names(Names)=c('C 1','C 2','C 3')
+ClassMDplot(Data[ind,1],ClsVeri,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2013/2014')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("IMM Classes")
+ClassMDplot(Data[ind,7],ClsVeri,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2013/2014')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("IMM Classes")
 #we see that features are equally distributed in the three classes
 # therefore it can be assumed that the features cannot be explained by k-means
+
+
+## IMM on 2016 ----
+Disk="E"
+setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
+
+load(file="Hydro2016.rda")#,Data2016,DF2016,Trans2016,DecisionTree,Rules,Distance,gmm,outModel,Cls2016,ScriptPfad)
+
+ClsV=FCPS::kmeansClustering(Data2016,2,Type = "kcentroids")
+
+ClsVeri=ClsV$Cls
+require(data.table)#on cran
+require(FeatureImpCluster)#on cran
+#transforming data to measure feature importance
+DF=as.data.frame(Data2016)
+DF=data.table::as.data.table(DF)
+f <- FeatureImpCluster::FeatureImpCluster(ClsV$Object,DF)
+f$featureImp
+table(Cls2016,ClsVeri)#no overlap
+ClusteringAccuracy(ClsVeri,Cls2016)
+
+Names=c(1:2)
+names(Names)=c('C 1','C 2')
+ClassMDplot(Data2016[,1],ClsVeri,MinimalAmoutOfData = 100,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("IMM Classes")
+ClassMDplot(Data2016[,7],ClsVeri,MinimalAmoutOfData = 100,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("IMM Classes")
+
+# 
+# sol71        At47        Wt13        Wt18     
+# 0.428865979 0.002405498 0.001718213 0.001030928
+## IMM on 2015 ----
+load(file="Hydro2015.rda")#,Data2016,DF2016,Trans2016,DecisionTree,Rules,Distance,gmm,outModel,Cls2016,ScriptPfad)
+ind=which(Cls<7)
+ClsV=FCPS::kmeansClustering(Data[ind,],6,Type = "kcentroids")
+
+ClsVeri=ClsV$Cls
+require(data.table)#on cran
+require(FeatureImpCluster)#on cran
+#transforming data to measure feature importance
+DF=as.data.frame(Data[ind,])
+DF=data.table::as.data.table(DF)
+f <- FeatureImpCluster::FeatureImpCluster(ClsV$Object,DF)
+f$featureImp
+
+# 
+# sol71         q13         q18        At47      
+# 0.714410480 0.090829694 0.067248908 0.003056769 
+table(Cls[ind],ClsVeri)#no overlap
+ClusteringAccuracy(ClsVeri,Cls[ind])
+
+
+Names=c(1:6)
+names(Names)=c('C 1','C 2','C 3','C 4','C 5','C 6')
+ClassMDplot(Data[ind,1],ClsVeri,MinimalAmoutOfData = 100,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate (NO3) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of NO3 in mg/L')+xlab("IMM Classes")
+ClassMDplot(Data[ind,7],ClsVeri,MinimalAmoutOfData = 100,PlotLegend=F,ClassNames = Names,ColorSequence = GeneralizedUmatrix::DefaultColorSequence,Ordering = "Alphabetical")$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity (EC) for 2016')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE of EC in	mS/m')+xlab("IMM Classes")
+
