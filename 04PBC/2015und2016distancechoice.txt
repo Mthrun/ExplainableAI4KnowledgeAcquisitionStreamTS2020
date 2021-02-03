@@ -1,0 +1,2 @@
+2015: minkowski p=0.1
+2016:euclidean (IPBC), aber dort im modell cluste 2 und 3 zu 2 zusammengefasset
