@@ -1,7 +1,4 @@
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DatabionicSwarm)](https://cran.r-project.org/package=DatabionicSwarm)
 [![DOI](https://zenodo.org/badge/250265216.svg)](https://zenodo.org/badge/latestdoi/250265216)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/DatabionicSwarm?color=blue)](https://r-pkg.org/pkg/DatabionicSwarm)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/DatabionicSwarm?color=green)](https://r-pkg.org/pkg/DatabionicSwarm)
 
 # Installation Guide
 
