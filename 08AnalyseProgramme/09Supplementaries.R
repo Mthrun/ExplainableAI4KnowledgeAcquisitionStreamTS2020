@@ -1,16 +1,16 @@
 #09Supplementariies
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 library(DataVisualizations)
 library(FCPS)
 
-## SI-A:Preprocessed Features ----
+## Appendix-A:Preprocessed Features ----
 library(ggplot2)
 MDplot(Trans3)+theme_bw()
 
 #View(ContingencyTableSummary(RenameDescendingClassSize(ClstTrue[ind]),RenameDescendingClassSize(ClsVeri)))
 
-## SI-C: Statistical Testing Taböe4 and Table 5 ----
+## Appendix-C: Statistical Testing Taböe4 and Table 5 ----
 ClassCount(ClstTrue)
 ind1=which(ClstTrue==1)
 ind2=which(ClstTrue==2)
@@ -69,10 +69,10 @@ wilcox.test(alternative = "greater",Kl1,Kl2)
 ks.test(alternative = "less",Kl1,Kl2,exact = T)
 
 
-## SI-D: Sil
+## Appendix-D: Sil
 DataVisualizations::Silhouetteplot(Trans3,ClstTrue)
 
-## SI-E: Distinction of Classes ----
+## Appendix-E: Distinction of Classes ----
 setwd(ReDi('HydrologieSchwarmClustering2016/01Transformierte'))
 V=TSAT::ReadDates('HydrologieAggregatedByMean2013bis2014.csv',ReDi('ExplainableAI4TimeSeries2020/09Originale'))
 Time=as.Date(as.vector(as.matrix(V[,1])))
@@ -114,7 +114,7 @@ range(Trans[ClstTrue!=4,'Smoist24'])
 
 ###
 ## Time Variations (unpublished) ----
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 cc=ClstTrue
 cc[cc>4]=4

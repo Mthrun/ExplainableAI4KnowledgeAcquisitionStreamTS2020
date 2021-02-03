@@ -1,16 +1,17 @@
 #07OckhamsRazor.R
-##
+## Section 2.2.2
 library(PPCI)#cran
 library(rgl)#cran
 library(GeneralizedUmatrix)#cran
 library(ProjectionBasedClustering)#cran
-##nonlinear model proof ----
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+##search for a simpler model ----
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 
 load('HydrologieTaeglich_hellinger3Clusters.rda')
-
+#use linear projection method
 proj=ProjectionBasedClustering::ICA(Trans4)
 genmodellinear=GeneralizedUmatrix(Trans3,proj$ProjectedPoints,F,Cls=ClstTrue)  
+
 plotTopographicMap(genmodellinear$Umatrix,genmodellinear$Bestmatches,Cls=ClstTrue)
 
 setwd(ReDi("ExplainableAI4TimeSeries2020/07Dokumentationen"))
@@ -18,6 +19,7 @@ rgl.snapshot('HydrologyStructuresLinearhellinger3Clusters.png')
 
 require(FCPS)
 require(PPCI)
+#use linear projection method
 proj=PPCI::mcdr(Trans4,p = 2,maxit=1000,ftol=1e-7)
 
 linear_cls=FCPS::ProjectionPursuitClustering(Trans4,ClusterNo = 3,Type="MaximumClusterbility")
@@ -34,7 +36,8 @@ plotTopographicMap(genmodellinear$Umatrix,genmodellinear$Bestmatches,Cls=ClstTru
 setwd(ReDi("ExplainableAI4TimeSeries2020/07Dokumentationen"))
 rgl.snapshot('HydrologyStructuresProjectionPursuit.png')
 
-##2015 ----
+#=> no linear model could be found
+##2015 data----
 
 library(PPCI)#cran
 library(rgl)#cran
@@ -42,7 +45,7 @@ library(GeneralizedUmatrix)#cran
 library(ProjectionBasedClustering)#cran
 ##nonlinear model proof ----
 Disk=""
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC",Disk))
 
 load('Hydro2015.rda')
 
@@ -65,7 +68,7 @@ setwd(ReDi("ExplainableAI4TimeSeries2020/07Dokumentationen"))
 rgl.snapshot('HydrologyStructuresProjectionPursuit2015.png')
 
 
-##2016 ----
+##2016 data ----
 
 library(PPCI)#cran
 library(rgl)#cran
@@ -73,7 +76,7 @@ library(GeneralizedUmatrix)#cran
 library(ProjectionBasedClustering)#cran
 ##nonlinear model proof ----
 Disk=""
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC",Disk))
 
 load('Hydro2016.rda')
 

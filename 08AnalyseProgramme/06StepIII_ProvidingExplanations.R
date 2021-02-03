@@ -117,33 +117,20 @@ EvolutionTree <- function(Data, Cls){
   return(fit)
 }
 #################################  ####################################################################################
-# Knowledge Acquisition ----
+# Generate Explanations  ----
 ########################################################################################################################
-Disk="F"
+Disk="E"
 setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC",Disk))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 
 #ClstTrue=RenameDescendingClassSize(ClstTrue2)
 plotTopographicMap(resUmatrix$Umatrix,resUmatrix$Bestmatches,ClstTrue,Imx = imx,BmSize = 1.1,NoLevels=10)
-norm=NormalizeUmatrix(Trans4,resUmatrix$Umatrix,resUmatrix$Bestmatches)
-plotTopographicMap(norm,resUmatrix$Bestmatches,ClstTrue,Imx = imx,BmSize = 1.1,NoLevels=10)
+#norm=NormalizeUmatrix(Trans4,resUmatrix$Umatrix,resUmatrix$Bestmatches)
+#plotTopographicMap(norm,resUmatrix$Bestmatches,ClstTrue,Imx = imx,BmSize = 1.1,NoLevels=10)
 
 Header=colnames(Trans3)
 
-#evolution tree
-EvolutionTree(Trans3,ClstTrue)
-
-#best cart
-cart=trainbestCART(Trans3,colnames(Trans3),ClstTrue)
-
-Clstsummed=ClstTrue
-Clstsummed[Clstsummed>3]=4
-
-ClassMDplot(Trans3[,1],Clstsummed,ClassNames = names,MinimalAmoutOfData = 20,PlotLegend=F,ColorSequence = GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Nitrate')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
-
-ClassMDplot(Trans3[,7],Clstsummed,MinimalAmoutOfData = 20,PlotLegend=F,ColorSequence=GeneralizedUmatrix::DefaultColorSequence)$ggobject+theme_bw()+ggtitle('Class MDplot of Electric Conductivity')+theme(plot.title = element_text(hjust = 0.5),axis.text.x = element_text(angle = 45,hjust = 1))+ylab('PDE')
-
-
+#We can Either transform the data back
 mback=Trans3
 namesback=names(backtrafo$MinX)
 for(i in 1:ncol(Trans3)){
@@ -162,10 +149,16 @@ cc[cc>4]=4
 
 plot(Trans$Time,cc,col=cc)
 
+#or use the oroginal data directly
+#V=TSAT::ReadDates('HydrologieAggregatedByMean2013bis2014.csv',ReDi('ExplainableAI4TimeSeries2020/09Originale',"E"))
+#Time=V$Time
+#Data=V$Data
+#Header=colnames(Data)
+#Note that in second case the decision tree changes slightly depending on the parameter setting of cart/evtree
 
-#cart
+#Guide supervised decision trees
 cart=trainbestCART(mback,Header,cc)
-comments="06ExplainClusters.R;BackTransformed Data, of which Transormed data was used in DBS"
+comments="06ExplainClusters.R;BackTransformed Data, of which Transormed data was used in PBC"
 
 ##For other XAIs
 #procedure requires https://github.com/aultsch/DataIO
@@ -188,6 +181,7 @@ summary(DecisionRules)
 rules=CART2Rules(cart)
 rules
 
+#are explanations relevant?
 names=c("Dry days with warm water of hgl",
         "Duality",
         "Dry days with cold water",

@@ -5,7 +5,7 @@ library(FCPS) #cran, using  #ClusterDistances
 setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
 load(file='BackTransformationHydrologieAverageAgregation.rda')#,backtrafo,Trans3,Trans)
 
-#Investigating Distance Distributions
+#Investigating Distance Distributions for multimodality
 
 MDplot(ClusterDistances(as.matrix(parallelDist::parDist(Trans3,method = 'manhattan'))))#+xlab(names(FCPS)[i])+theme_bw()
 
@@ -46,7 +46,7 @@ MDplot(ClusterDistances(as.matrix(DistanceMatrix(Trans3,method = 'sqEuclidean'))
 
 MDplot(ClusterDistances(as.matrix(DistanceMatrix(Trans3))),SampleSize=1e5)#+xlab(names(FCPS)[i])+theme_bw()
 
-#Gute Distanz
+#appropriate distance
 MDplot(ClusterDistances(as.matrix(parallelDist::parDist(Trans3,method = 'hellinger'))),SampleSize=1e5)#+xlab(names(FCPS)[i])+theme_bw()
 
 InputDistances=as.matrix(parallelDist::parDist(Trans3,method = 'hellinger'))
@@ -54,7 +54,7 @@ InputDistances=as.matrix(parallelDist::parDist(Trans3,method = 'hellinger'))
 setwd(ReDi("ExplainableAI4TimeSeries2020/01Transformierte"))
 save(file='hellinger_DistancesHydrologie.rda',InputDistances,Trans3,Trans,backtrafo,Time)
 ##
-## gmm ----
+## gaussian mixuture model (gmm) if distances ----
 library(diptest)#cran
 library(AdaptGauss)#cran
 library(DistributionOptimization)
@@ -63,9 +63,10 @@ load(file='hellinger_DistancesHydrologie.rda')#,pvalueChitest,distvec,gmm,InputD
 
 distvec=InputDistances[upper.tri(InputDistances,diag = F)]
 dip=diptest::dip.test(distvec)
+#algorithm so that gaussians overlap as less as possible
 modelproposal=DistributionOptimization::DistributionOptimization(distvec,3)
 gmm=list(Means=modelproposal$Means,SDs=modelproposal$SDs,Weights=modelproposal$Weights)
-#adjustments
+#interactive adjustments
 gmm=AdaptGauss::AdaptGauss(distvec,gmm$Means,gmm$SDs,gmm$Weights)
 
 dput(gmm)

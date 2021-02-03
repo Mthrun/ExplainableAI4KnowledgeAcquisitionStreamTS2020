@@ -3,7 +3,7 @@ Disk="E"
 path=ReDi("ExplainableAI4TimeSeries2020/03eUD35",Disk)
 source(paste0(path,'/Clustering_Output_eUD35.R'))
 setwd(path)
-
+#function used to prepare eUD3.5 patterns
 Patterns2Rules=function(Patterns){
   Patterns=gsub("\\[",",c(",x = Patterns)
   Patterns=gsub("\\] ","\\)",x = Patterns)
@@ -94,7 +94,7 @@ ClassMDplot(Data2015[,7],Cls2015,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames
 
 ## IMM ----
 Disk="E"
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC",Disk))
 load('HydrologieTaeglich_hellinger3Clusters.rda')
 ind=which(ClstTrue<4)
 
@@ -141,7 +141,7 @@ ClassMDplot(Data[ind,7],ClsVeri,MinimalAmoutOfData = 10,PlotLegend=F,ClassNames 
 
 ## IMM on 2016 ----
 Disk="E"
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS",Disk))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC",Disk))
 
 load(file="Hydro2016.rda")#,Data2016,DF2016,Trans2016,DecisionTree,Rules,Distance,gmm,outModel,Cls2016,ScriptPfad)
 

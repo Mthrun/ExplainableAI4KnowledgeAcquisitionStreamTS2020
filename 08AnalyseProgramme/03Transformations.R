@@ -1,10 +1,13 @@
 #03Transformations.R
+
+#required packages available on cran
 library(TSAT)
 library(DataVisualizations)#CRAN
 library(ABCanalysis)#CRAN
 library(DatabionicSwarm)#CRAN
 library(parallelDist)#CRAN
 KNNimputation=function (Data, k = 3){
+#imputes data using k nearest neighbors
   dist2All=function (x, data, defined = rep(1, length(x)), distance = "euclidean") 
   {
     requireNamespace("parallelDist")
@@ -44,6 +47,7 @@ KNNimputation=function (Data, k = 3){
   }
   return(ImputedData = ImputedData)
 }
+#load data form path
 setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
 V=TSAT::ReadDates('HydrologieAggregatedByMean2013bis2014.csv',ReDi('ExplainableAI4TimeSeries2020/09Originale'))
 Time=V$Time
@@ -51,18 +55,22 @@ Trans=V$Data
 Trans[!is.finite(Trans)]=NaN
 DataVisualizations::Pixelmatrix(Trans)
 Header=colnames(Trans)
+#impute missing values specified as nan
 Trans2=KNNimputation(Trans,7)
 DataVisualizations::Pixelmatrix(Trans2)
 Trans=Trans2
-
+#distribution analysis
 for(i in 1:14)
   DataVisualizations::InspectVariable(Trans[,i],Header[i])
 
+#outliers def
 OutlierInd=ABCanalysis::ABCanalysis(Trans[,14],PlotIt = T)$Aind
 
 min(Trans[OutlierInd,14])
+#capping
 Trans[,14]=Trans[,14]/min(Trans[OutlierInd,14])
 
+#standardization of features
 i=12
 DataVisualizations::InspectVariable(Trans[,i],Header[i])
 Trans[,c(12,13)]=DataVisualizations::SignedLog(Trans[,c(12,13)])
@@ -93,7 +101,7 @@ Trans[,c(1:13)]=RobustNormalization(Trans[,c(1:13)],WithBackTransformation = F)
 DataVisualizations::PlotMissingvalues(Trans,Names = colnames(Trans))
 MDplot(Trans)
 
-
+#correlations
 Header=Header[1:14]
 
 DataVisualizations::Pixelmatrix(cor(Trans),XNames = Header,YNames = Header)
@@ -143,6 +151,6 @@ DataVisualizations::MDplot(Trans3)
 Trans3[Trans3<0]=0
 Trans3[Trans3>1.1]=1
 DataVisualizations::MDplot(Trans3)
-
+#save transformed data
 setwd(ReDi('ExplainableAI4TimeSeries2020/01Transformierte'))
 save(file='BackTransformationHydrologieAverageAgregation.rda',backtrafo,Trans3,Trans,Time)

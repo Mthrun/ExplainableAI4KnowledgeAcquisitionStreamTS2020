@@ -35,11 +35,11 @@ imx=ProjectionBasedClustering::interactiveGeneralizedUmatrixIsland(resUmatrix$Um
 ClstTrue=FCPS::ClusterRenameDescendingSize(Cls2)
 
 method='hellinger'
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 save(file='HydrologieTaeglich_hellinger3Clusters.rda',Trans3,InputDistances,Trans4,method,imx,res,resUmatrix,norm,backtrafo,Trans,Time)
 
 ## Ploting ----
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 load(file='HydrologieTaeglich_hellinger3Clusters.rda')
 
 library(rgl)
@@ -67,5 +67,5 @@ require('fpc')
 fpc::cluster.stats(d = InputDistances, clustering=ClstTrue,silhouette=T)
 
 
-setwd(ReDi("ExplainableAI4TimeSeries2020/04DBS"))
+setwd(ReDi("ExplainableAI4TimeSeries2020/04PBC"))
 save(file='HydrologieTaeglich_hellinger3Clusters.rda',ClstTrue,Trans3,InputDistances,Trans4,method,imx,res,resUmatrix,norm,backtrafo,Trans,Time)
