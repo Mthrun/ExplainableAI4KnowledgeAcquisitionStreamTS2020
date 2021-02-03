@@ -82,7 +82,7 @@ Raw data is stored in 90RawData, aggregated data in 09Originale and preprocessed
 
 ## References
 
-1. [Thrun et al., 2020]  Thrun, M. C., Ultsch, A., & Breuer, L.: Explainable AI Framework for Multivariate Hydrochemical Time Series, Machine Learning and Knowledge Extraction (MAKE), Vol. under major revision, 2020.
+1. Thrun, M. C., Ultsch, A., & Breuer, L.: Explainable AI Framework for Multivariate Hydrochemical Time Series, Machine Learning and Knowledge Extraction (MAKE), DOI: accepted, MDPI, 2021. 
 2. [Thrun/Stier, 2020]  Thrun, M. C., & Stier, Q.: Fundamental Clustering Algorithms Suite, SoftwareX, Vol. 13(C), pp. 100642, DOI: 10.1016/j.softx.2020.100642, Elsevier, in press, 2021. 
 3. [Thrun/Ultsch, 2020b]  Thrun, M. C., & Ultsch, A.: Swarm Intelligence for Self-Organized Clustering, Artificial Intelligence, Vol. 290, pp. 103237, DOI: 10.1016/j.artint.2020.103237, Elsevier, 2020. 
 4. [Thrun/Ultsch, 2020c]  Thrun, M. C., & Ultsch, A. : Using Projection based Clustering to Find Distance and Density based Clusters in High-Dimensional Data, Journal of Classification, pp. 1-33, DOI 10.1007/s00357-020-09373-2, Springer, 2020. 
